@@ -34,6 +34,10 @@ class CreateEstanciasTable extends Migration
      */
     public function down()
     {
+        Schema::table('estancias', function (Blueprint $table){
+            $table->dropForeign('estancias_id_auto_foreign');
+            $table->dropForeign('estancias_id_user_foreign');
+        });
         Schema::dropIfExists('estancias');
     }
 }
