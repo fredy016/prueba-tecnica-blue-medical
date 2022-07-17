@@ -15,4 +15,8 @@ class AutoTipo extends Model
     ];
 
     protected $table = 'autos_tipo';
+
+    public function autos(){
+        return $this->hasMany(Auto::class, 'id_tipo');
+    }
 }

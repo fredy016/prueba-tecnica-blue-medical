@@ -13,4 +13,8 @@ class Auto extends Model
         'placa',
         'id_tipo'
     ];
+
+    public function autos_tipo(){
+        return $this->belongsTo(AutoTipo::class, 'id');
+    }
 }
