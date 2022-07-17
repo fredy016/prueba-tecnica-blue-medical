@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AutoTipoController;
 use App\Http\Controllers\AutosController;
 use App\Http\Controllers\RegistroContoller;
+use App\Http\Controllers\ControlMesController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -39,6 +40,7 @@ Route::apiResource('autos_tipo', AutoTipoController::class);
 // TODO Rutas para autos
 Route::apiResource('autos', AutosController::class);
 
+// TODO Rutas para registro de entradas y salidas
 Route::group([
     'middleware' => 'api',
     'prefix' => 'registro'
@@ -49,3 +51,6 @@ Route::group([
     // TODO Ruta para registrar Salida
     Route::put('salida', [RegistroContoller::class, 'RegistroSalida']);
 });
+
+// TODO Rutas para el control del mes
+Route::post('comienza_mes', [ControlMesController::class, 'ComienzaMes']);
