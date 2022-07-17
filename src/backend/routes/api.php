@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Controllers\AutoTipoController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -29,3 +30,6 @@ Route::group([
     Route::post('me', 'App\Http\Controllers\AuthController@me');
     Route::post('register', 'App\Http\Controllers\AuthController@register');
 });
+
+// TODO Rutas para tipos de autos
+Route::apiResource('autos_tipo', AutoTipoController::class);
