@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Auto;
+use App\Models\Pagos;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
@@ -34,17 +36,27 @@ class RegistroContoller extends Controller
             'id_user' => $parametros['id_user'],
             'id_auto' => null
         ];
-        $auto = Auto::where('placa','=', $parametros['placa'])->first();
+        $auto = Auto::where('placa', '=', $parametros['placa'])->first();
 
         // TODO Si el auto no existe lo insertamos como un visitante
         if (!$auto) {
-             $dataInserted = Auto::create([
+            $dataInserted = Auto::create([
                 'placa' => $parametros['placa'],
                 'id_tipo' => 3
             ]);
             $datos['id_auto'] = $dataInserted->id;
-        }else{
+        } else {
             $datos['id_auto'] = $auto->id;
+        }
+
+        // TODO Validar que no intenten ingresar un auto que ya está estacionado
+        $estanciaActual = Estancia::whereNull('salida')->first();
+        if($estanciaActual){
+            return response()->json([
+                'status' => false,
+                'message' => 'La placa ingresada ya se encuentra dentro del estacionamiento',
+                'data' => []
+            ]);
         }
 
         // TODO Registrar la estancia
@@ -81,19 +93,43 @@ class RegistroContoller extends Controller
 
         // TODO Obtener la info del auto
         $auto = Auto::where('placa', $parametros['placa'])->first();
-        if($auto){
+        if ($auto) {
 
             // TODO Obtener la estancia del auto
             $estanciaActual = $auto->estancias->whereNull('salida')->first();
-            if($estanciaActual){
+            if ($estanciaActual) {
                 // TODO Guardar la salida de la estancia
-                $estanciaActual->salida = DB::raw('CURRENT_TIMESTAMP');
+                $tiempoSalida = Carbon::now();
+                $estanciaActual->salida = $tiempoSalida;
                 $estanciaActual->save();
-            }else{
+
+                /*
+                 * Formas de pago
+                 * 1 - No pagan, solo se registran las estancias
+                 * 2 - Paga al final de mes un monto por minuto transcurrido
+                 * 3 - Paga la estancia transcurrida, los minutos que estuvo estacionado
+                 * */
+
+                // TODO Validar la forma de pago del tipo de auto
+                $tipoAuto = $auto->autos_tipo;
+                if ($tipoAuto->forma_pago == 2) {
+                    $auto->tiempo_estacionado = $auto->tiempo_estacionado + $estanciaActual->getDiffInDaysAttribute();
+                    $auto->save();
+                }
+
+                if ($tipoAuto->forma_pago == 3) {
+                    Pagos::create([
+                        'id_auto' => $auto->id,
+                        'id_estancia' => $estanciaActual->id,
+                        'monto' => $estanciaActual->getDiffInDaysAttribute() * 0.05,
+                        'concepto' => 'Pago de visitante',
+                    ]);
+                }
+            } else {
                 $message = 'El auto no tiene una estancia activa';
                 $status = false;
             }
-        }else{
+        } else {
             $message = 'El auto ingresado no existe en el sistema';
             $status = false;
         }
