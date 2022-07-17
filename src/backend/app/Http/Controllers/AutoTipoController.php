@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
+use Tymon\JWTAuth\Exceptions\UserNotDefinedException;
+
 use App\Models\AutoTipo;
 
 class AutoTipoController extends Controller
@@ -16,17 +18,27 @@ class AutoTipoController extends Controller
      */
     public function index()
     {
+        // TODO Validar la sesión
+        try {
+            auth()->userOrFail();
+        } catch (UserNotDefinedException $e) {
+            return $this->mensajeRespuesta(false, 'Usuario no autorizado', null, false);
+        }
+
         // TODO Obtener todos los datos de autoTipo
         $tipos = AutoTipo::all();
-        return response()->json([
-            'status' => true,
-            'message' => 'Tipo de autos',
-            'data' => $tipos
-        ]);
+        return $this->mensajeRespuesta(true,'Tipo de autos', $tipos);
     }
 
     public function store(Request $request)
     {
+        // TODO Validar la sesión
+        try {
+            auth()->userOrFail();
+        } catch (UserNotDefinedException $e) {
+            return $this->mensajeRespuesta(false, 'Usuario no autorizado', null, false);
+        }
+
         // TODO Validar la información
         $validator = Validator::make($request->all(), [
             'descripcion' => 'required|max:100',
@@ -34,26 +46,25 @@ class AutoTipoController extends Controller
         ]);
 
         if($validator->fails()){
-            return response()->json([
-                'status'    => false,
-                'message'   => 'Ah ocurrido un error al crear el tipo de auto',
-                'data'   => [$validator->errors()]
-            ], 400);
+            return $this->mensajeRespuesta(false,'Ah ocurrido un error al crear el tipo de auto', [$validator->errors()]);
         }
 
         // TODO Crear un nuevo tipo de auto
         AutoTipo::create($request->all());
 
         // TODO Retornar un mensaje con el estado
-        return response()->json([
-            'status' => true,
-            'message' => 'Tipo de auto creado exitosamente',
-            'data' => null
-        ]);
+        return $this->mensajeRespuesta(true,'Tipo de auto creado exitosamente', null);
     }
 
     public function show($id)
     {
+        // TODO Validar la sesión
+        try {
+            auth()->userOrFail();
+        } catch (UserNotDefinedException $e) {
+            return $this->mensajeRespuesta(false, 'Usuario no autorizado', null, false);
+        }
+
         // TODO Obtener todos los datos de un autoTipo
         $tipo = AutoTipo::find($id);
 
@@ -64,15 +75,18 @@ class AutoTipoController extends Controller
             $message = 'No se ha encontrado el tipo de auto';
         }
 
-        return response()->json(array(
-            'status' => $status,
-            'message' => $message,
-            'data' => $tipo ? $tipo : []
-        ));
+        return $this->mensajeRespuesta($status,$message, $tipo ? $tipo : []);
     }
 
     public function update(Request $request, $id)
     {
+        // TODO Validar la sesión
+        try {
+            auth()->userOrFail();
+        } catch (UserNotDefinedException $e) {
+            return $this->mensajeRespuesta(false, 'Usuario no autorizado', null, false);
+        }
+
         // TODO Buscar el tipo de auto
         $tipo = AutoTipo::find($id);
 
@@ -85,16 +99,18 @@ class AutoTipoController extends Controller
             $status = true;
             $message = 'Tipo de auto actualizado corectamente';
         }
-        return response()->json(array(
-            'status' => $status,
-            'message' => $message,
-            'data' => $request->all()
-        ));
-
+        return $this->mensajeRespuesta($status,$message);
     }
 
     public function destroy($id)
     {
+        // TODO Validar la sesión
+        try {
+            auth()->userOrFail();
+        } catch (UserNotDefinedException $e) {
+            return $this->mensajeRespuesta(false, 'Usuario no autorizado', null, false);
+        }
+
         // TODO Eliminar un elemento
         $elementosEliminados = AutoTipo::destroy($id);
 
@@ -106,10 +122,15 @@ class AutoTipoController extends Controller
             $message='No se ha encontrado el tipo de auto solicitado';
         }
 
-        return response()->json(array(
+        return $this->mensajeRespuesta($status,$message);
+    }
+
+    public function mensajeRespuesta($status, $message, $data = null, $logeado = true){
+        return response()->json([
             'status' => $status,
+            'logeado' => $logeado,
             'message' => $message,
-            'data' => null
-        ));
+            'data' => $data
+        ]);
     }
 }

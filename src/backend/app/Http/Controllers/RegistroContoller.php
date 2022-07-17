@@ -5,9 +5,10 @@ namespace App\Http\Controllers;
 use App\Models\Auto;
 use App\Models\Pagos;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
+
+use Tymon\JWTAuth\Exceptions\UserNotDefinedException;
 
 use App\Models\Estancia;
 
@@ -15,6 +16,13 @@ class RegistroContoller extends Controller
 {
     public function RegistroEntrada(Request $request)
     {
+        // TODO Validar la sesión
+        try {
+            auth()->userOrFail();
+        } catch (UserNotDefinedException $e) {
+            return $this->mensajeRespuesta(false, 'Usuario no autorizado', null, false);
+        }
+
         // TODO Validar la información
         $validator = Validator::make($request->all(), [
             'placa' => 'required',
@@ -22,11 +30,7 @@ class RegistroContoller extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json([
-                'status' => false,
-                'message' => 'Ah ocurrido un error al registrar la entrada',
-                'data' => [$validator->errors()]
-            ], 400);
+            return $this->mensajeRespuesta(false,'Ah ocurrido un error al registrar la entrada', [$validator->errors()]);
         }
 
         // TODO Validar si existe la placa ingresada
@@ -52,25 +56,24 @@ class RegistroContoller extends Controller
         // TODO Validar que no intenten ingresar un auto que ya está estacionado
         $estanciaActual = $auto->estancias->whereNull('salida')->first();
         if($estanciaActual){
-            return response()->json([
-                'status' => false,
-                'message' => 'La placa ingresada ya se encuentra dentro del estacionamiento',
-                'data' => []
-            ]);
+            return $this->mensajeRespuesta(false,'La placa ingresada ya se encuentra dentro del estacionamiento');
         }
 
         // TODO Registrar la estancia
         Estancia::create($datos);
 
-        return response()->json([
-            'status' => true,
-            'message' => 'Registro de entrada',
-            'data' => []
-        ]);
+        return $this->mensajeRespuesta(true,'Registro de entrada');
     }
 
     public function RegistroSalida(Request $request)
     {
+        // TODO Validar la sesión
+        try {
+            auth()->userOrFail();
+        } catch (UserNotDefinedException $e) {
+            return $this->mensajeRespuesta(false, 'Usuario no autorizado', null, false);
+        }
+
         // TODO Validar la información
         $validator = Validator::make($request->all(), [
             'placa' => 'required',
@@ -78,11 +81,7 @@ class RegistroContoller extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json([
-                'status' => false,
-                'message' => 'Ah ocurrido un error al registrar la salida',
-                'data' => [$request->all()]
-            ], 400);
+            return $this->mensajeRespuesta(false,'Ah ocurrido un error al registrar la salida');
         }
 
         $parametros = $request->all();
@@ -135,10 +134,15 @@ class RegistroContoller extends Controller
         }
 
         // TODO Retornar la respuesta en formato json según el caso ocurrido
+        return $this->mensajeRespuesta($status,$message);
+    }
+
+    public function mensajeRespuesta($status, $message, $data = null, $logeado = true){
         return response()->json([
             'status' => $status,
+            'logeado' => $logeado,
             'message' => $message,
-            'data' => []
+            'data' => $data
         ]);
     }
 }

@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+
+use Tymon\JWTAuth\Exceptions\UserNotDefinedException;
 
 use App\Models\Auto;
 
@@ -16,63 +19,75 @@ class AutosController extends Controller
      */
     public function index()
     {
+        // TODO Validar la sesión
+        try {
+            auth()->userOrFail();
+        } catch (UserNotDefinedException $e) {
+            return $this->mensajeRespuesta(false, 'Usuario no autorizado', null, false);
+        }
+
         // TODO Obtener todos los datos de Autos
         $tipos = Auto::all();
-        return response()->json([
-            'status' => true,
-            'message' => 'Lista de autos',
-            'data' => $tipos
-        ]);
+        return $this->mensajeRespuesta(true,'Lista de autos',$tipos);
     }
 
     public function store(Request $request)
     {
+        // TODO Validar la sesión
+        try {
+            auth()->userOrFail();
+        } catch (UserNotDefinedException $e) {
+            return $this->mensajeRespuesta(false, 'Usuario no autorizado', null, false);
+        }
+
         // TODO Validar la información
         $validator = Validator::make($request->all(), [
             'placa' => 'required|max:20',
             'id_tipo' => 'required'
         ]);
 
-        if($validator->fails()){
-            return response()->json([
-                'status'    => false,
-                'message'   => 'Ah ocurrido un error al crear el auto',
-                'data'   => [$validator->errors()]
-            ], 400);
+        if ($validator->fails()) {
+            return $this->mensajeRespuesta(false,'Ah ocurrido un error al crear el auto', [$validator->errors()]);
         }
 
         // TODO Crear un nuevo tipo de auto
         Auto::create($request->all());
 
         // TODO Retornar un mensaje con el estado
-        return response()->json([
-            'status' => true,
-            'message' => 'Auto creado exitosamente',
-            'data' => null
-        ]);
+        return $this->mensajeRespuesta(true,'Auto creado exitosamente', null);
     }
 
     public function show($id)
     {
+        // TODO Validar la sesión
+        try {
+            auth()->userOrFail();
+        } catch (UserNotDefinedException $e) {
+            return $this->mensajeRespuesta(false, 'Usuario no autorizado', null, false);
+        }
+
         // TODO Obtener todos los datos de un Auto
         $tipo = Auto::find($id);
 
-        $message = 'Auto '.$id;
+        $message = 'Auto ' . $id;
         $status = true;
         if (!$tipo) {
             $status = false;
             $message = 'No se ha encontrado el auto solicitado';
         }
 
-        return response()->json(array(
-            'status' => $status,
-            'message' => $message,
-            'data' => $tipo ? $tipo : []
-        ));
+        return $this->mensajeRespuesta($status,$message, $tipo ? $tipo : []);
     }
 
     public function update(Request $request, $id)
     {
+        // TODO Validar la sesión
+        try {
+            auth()->userOrFail();
+        } catch (UserNotDefinedException $e) {
+            return $this->mensajeRespuesta(false, 'Usuario no autorizado', null, false);
+        }
+
         // TODO Buscar un auto
         $tipo = Auto::find($id);
 
@@ -85,31 +100,39 @@ class AutosController extends Controller
             $status = true;
             $message = 'Auto actualizado corectamente';
         }
-        return response()->json(array(
-            'status' => $status,
-            'message' => $message,
-            'data' => $request->all()
-        ));
+        return $this->mensajeRespuesta($status,$message, null);
 
     }
 
     public function destroy($id)
     {
+        // TODO Validar la sesión
+        try {
+            auth()->userOrFail();
+        } catch (UserNotDefinedException $e) {
+            return $this->mensajeRespuesta(false, 'Usuario no autorizado', null, false);
+        }
+
         // TODO Eliminar un elemento
         $elementosEliminados = Auto::destroy($id);
 
         $status = true;
         $message = 'Auto eliminado correctamente';
 
-        if($elementosEliminados != null || $elementosEliminados <= 0){
-            $status=false;
-            $message='No se ha encontrado el auto solicitado';
+        if ($elementosEliminados != null || $elementosEliminados <= 0) {
+            $status = false;
+            $message = 'No se ha encontrado el auto solicitado';
         }
 
-        return response()->json(array(
+        return $this->mensajeRespuesta($status,$message);
+    }
+
+    public function mensajeRespuesta($status, $message, $data = null, $logeado = true){
+        return response()->json([
             'status' => $status,
+            'logeado' => $logeado,
             'message' => $message,
-            'data' => null
-        ));
+            'data' => $data
+        ]);
     }
 }
