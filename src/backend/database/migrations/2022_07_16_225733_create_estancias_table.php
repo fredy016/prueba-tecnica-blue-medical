@@ -19,7 +19,7 @@ class CreateEstanciasTable extends Migration
             $table->unsignedBigInteger('id_auto');
             $table->unsignedBigInteger('id_user');
             $table->timestamp('entrada')->default(DB::raw('CURRENT_TIMESTAMP'));
-            $table->time('salida')->nullable();
+            $table->timestamp('salida')->nullable();
             $table->timestamps();
 
             // TODO Definir las llaves foranea
