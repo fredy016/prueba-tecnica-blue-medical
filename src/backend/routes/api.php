@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\AutoTipoController;
 use App\Http\Controllers\AutosController;
+use App\Http\Controllers\RegistroContoller;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -37,3 +38,6 @@ Route::apiResource('autos_tipo', AutoTipoController::class);
 
 // TODO Rutas para autos
 Route::apiResource('autos', AutosController::class);
+
+// TODO Ruta para registrar Entrada
+Route::post('registro_entrada', [RegistroContoller::class, 'RegistroEntrada']);
