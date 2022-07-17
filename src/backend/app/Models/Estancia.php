@@ -13,4 +13,8 @@ class Estancia extends Model
         'id_auto',
         'id_user'
     ];
+
+    public function auto(){
+        return $this->belongsTo(Auto::class, 'id');
+    }
 }

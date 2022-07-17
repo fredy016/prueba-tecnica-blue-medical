@@ -17,4 +17,8 @@ class Auto extends Model
     public function autos_tipo(){
         return $this->belongsTo(AutoTipo::class, 'id');
     }
+
+    public function estancias(){
+        return $this->hasMany(Estancia::class, 'id_auto');
+    }
 }
