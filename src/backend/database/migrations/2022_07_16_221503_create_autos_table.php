@@ -15,7 +15,7 @@ class CreateAutosTable extends Migration
     {
         Schema::create('autos', function (Blueprint $table) {
             $table->id();
-            $table->string('placa', 20);
+            $table->string('placa', 20)->unique();
             $table->unsignedBigInteger('id_tipo');
             $table->timestamps();
 
@@ -31,6 +31,9 @@ class CreateAutosTable extends Migration
      */
     public function down()
     {
+        Schema::table('autos', function (Blueprint $table){
+            $table->dropForeign('autos_id_tipo_foreign');
+        });
         Schema::dropIfExists('autos');
     }
 }
