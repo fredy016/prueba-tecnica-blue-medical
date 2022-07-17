@@ -50,7 +50,7 @@ class RegistroContoller extends Controller
         }
 
         // TODO Validar que no intenten ingresar un auto que ya está estacionado
-        $estanciaActual = Estancia::whereNull('salida')->first();
+        $estanciaActual = $auto->estancias->whereNull('salida')->first();
         if($estanciaActual){
             return response()->json([
                 'status' => false,
