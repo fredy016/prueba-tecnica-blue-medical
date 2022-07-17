@@ -39,5 +39,13 @@ Route::apiResource('autos_tipo', AutoTipoController::class);
 // TODO Rutas para autos
 Route::apiResource('autos', AutosController::class);
 
-// TODO Ruta para registrar Entrada
-Route::post('registro_entrada', [RegistroContoller::class, 'RegistroEntrada']);
+Route::group([
+    'middleware' => 'api',
+    'prefix' => 'registro'
+], function ($router) {
+    // TODO Ruta para registrar Entrada
+    Route::post('entrada', [RegistroContoller::class, 'RegistroEntrada']);
+
+    // TODO Ruta para registrar Salida
+    Route::put('salida', [RegistroContoller::class, 'RegistroSalida']);
+});
