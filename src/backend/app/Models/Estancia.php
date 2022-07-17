@@ -16,7 +16,7 @@ class Estancia extends Model
     ];
 
     public function auto(){
-        return $this->belongsTo(Auto::class, 'id');
+        return $this->belongsTo(Auto::class, 'id_auto');
     }
 
     public function getDiffInDaysAttribute()
