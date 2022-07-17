@@ -95,7 +95,7 @@ class AuthController extends Controller
             return response()->json([
                 'status'    => false,
                 'message'   => 'Ah ocurrido un error al guardar el usuario',
-                'data'   => $validator->errors()
+                'data'   => [$validator->errors()]
             ], 400);
         }
 
