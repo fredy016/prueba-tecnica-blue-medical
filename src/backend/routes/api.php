@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\AutoTipoController;
+use App\Http\Controllers\AutosController;
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -33,3 +34,6 @@ Route::group([
 
 // TODO Rutas para tipos de autos
 Route::apiResource('autos_tipo', AutoTipoController::class);
+
+// TODO Rutas para autos
+Route::apiResource('autos', AutosController::class);
