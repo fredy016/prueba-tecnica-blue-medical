@@ -21,7 +21,7 @@ export const content: Routes = [
         path: 'ingreso',
         loadChildren: () => import('../../components/ingreso/ingreso.module').then(m => m.IngresoModule),
         data: {
-            breadcrumb: 'Autos residentes',
+            breadcrumb: 'Ingreso',
             link: '/ingreso'
         }
     }

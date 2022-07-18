@@ -10,7 +10,7 @@ const routes: Routes = [
                 path: '',
                 component: IngresoEntradaComponent,
                 data: {
-                    title: 'Registrar Entrda',
+                    title: 'Registrar Entrada',
                     breadcrumb: 'Entrada',
                     expectedRole: '/registro/entrada'
                 }
