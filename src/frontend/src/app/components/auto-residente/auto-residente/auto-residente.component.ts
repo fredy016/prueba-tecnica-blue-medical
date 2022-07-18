@@ -84,7 +84,7 @@ export class AutoResidenteComponent implements OnInit {
   }
 
   delete(id) {
-    Util.mostrarConfirmacion('Eliminación vehículo oficial', 'Desea eliminar el vehículo oficial seleccionada?').then((result) => {
+    Util.mostrarConfirmacion('Eliminación vehículo residente', 'Desea eliminar el vehículo residente seleccionada?').then((result) => {
       if (result.value) {
         Util.mostrarMensajeEspera('Espere...', 'Realizando solicitud');
         this.dataSource.solicitudDELETE('autos/' + id).subscribe(dataGuardado => {

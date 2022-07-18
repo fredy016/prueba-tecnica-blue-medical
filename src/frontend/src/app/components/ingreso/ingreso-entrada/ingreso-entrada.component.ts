@@ -29,7 +29,7 @@ export class IngresoEntradaComponent implements OnInit {
   }
 
   guardar() {
-    // TODO Función para guardar los datos del nuevo usuario
+    // TODO Función para guardar los datos del registro entrada
     Util.mostrarConfirmacion('Guardar información', 'Desea registrar la entrada al estacionamiento?').then((result) => {
       if (result.value) {
         const datosPost = this.form.value;

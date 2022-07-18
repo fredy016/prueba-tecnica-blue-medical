@@ -29,7 +29,7 @@ export class AutoOficialCrearComponent implements OnInit {
     }
 
     guardar() {
-        // TODO Función para guardar los datos del nuevo usuario
+        // TODO Función para guardar los datos del nuevo auto oficial
         Util.mostrarConfirmacion('Guardar información', 'Desea guardar la información?').then((result) => {
             if (result.value) {
                 const datosPost = this.formMateria.value;

@@ -65,7 +65,6 @@ export class AutoOficialComponent implements OnInit {
     }
 
     obtener() {
-        // Util.mostrarMensajeEspera('Espere', 'Realizando solicitud');
         this.dataSource.solicitudGET('autos/tipo/1').subscribe(data => {
             if (data.status) {
                 this.dataAutos = data.data;
