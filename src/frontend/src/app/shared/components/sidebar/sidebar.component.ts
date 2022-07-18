@@ -27,7 +27,6 @@ export class SidebarComponent {
         });
 
         this.router.events.subscribe((event) => {
-            console.log('Se ha cambiado la url');
             if (event instanceof NavigationEnd) {
                 this.url = event.url;
                 this.activarItem();
@@ -37,7 +36,6 @@ export class SidebarComponent {
 
     activarItem() {
         this.menuItems.filter(items => {
-            console.log(items.path + ' <> ' + this.url);
             if (items.path === this.url) {
                 this.setNavActive(items);
             }
@@ -46,7 +44,6 @@ export class SidebarComponent {
             }
             items.children.filter(subItems => {
                 if (subItems.path === this.url) {
-                    console.log(this.url);
                     this.setNavActive(subItems);
                 }
                 if (!subItems.children) {
@@ -63,8 +60,6 @@ export class SidebarComponent {
 
     // Active Nave state
     setNavActive(item) {
-        console.log('Activando menu');
-        console.log(item);
         this.menuItems.filter(menuItem => {
             if (menuItem !== item) {
                 menuItem.active = false;

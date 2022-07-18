@@ -7,10 +7,11 @@ import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {Ng2SmartTableModule} from 'ng2-smart-table';
 import {ReactiveFormsModule} from '@angular/forms';
 import {NgSelectModule} from '@ng-select/ng-select';
+import { AutoResidenteCrearComponent } from './auto-residente-crear/auto-residente-crear.component';
 
 
 @NgModule({
-    declarations: [AutoResidenteComponent],
+    declarations: [AutoResidenteComponent, AutoResidenteCrearComponent],
     imports: [
         CommonModule,
         NgbModule,

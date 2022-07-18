@@ -66,7 +66,7 @@ export class AutoResidenteComponent implements OnInit {
 
   obtener() {
     // Util.mostrarMensajeEspera('Espere', 'Realizando solicitud');
-    this.dataSource.solicitudGET('autos').subscribe(data => {
+    this.dataSource.solicitudGET('autos/tipo/2').subscribe(data => {
       if (data.status) {
         this.dataAutos = data.data;
       } else {
