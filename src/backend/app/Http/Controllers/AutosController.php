@@ -64,8 +64,8 @@ class AutosController extends Controller
         }
 
         // TODO Valiodar si el auto existe
-        $auto = Auto::where('placa',$parametros['placa'])->first();
-        if($auto){
+        $auto = Auto::where('placa', $parametros['placa'])->first();
+        if ($auto) {
             // TODO Retornar un mensaje advirtiendo que el auto ya existe
             return $this->mensajeRespuesta(false, 'El auto ingresado ya se encuentra en la lista de autos', null);
         }
@@ -132,16 +132,20 @@ class AutosController extends Controller
             return $this->mensajeRespuesta(false, 'Usuario no autorizado', null, false);
         }
 
-        try {
-            // TODO Eliminar un elemento
-            $elementosEliminados = Auto::where('id', $id)->delete();
+        // TODO Validar si el auto tiene estancias
+        $auto = Auto::find($id);
+        if(!$auto)
+            return $this->mensajeRespuesta(false, 'No se ha encontrado el auto a eliminar');
+        $estancias = $auto->estancias;
+        if($estancias)
+            return $this->mensajeRespuesta(false, 'No se puede eliminar el auto debido a que tiene estancias registradas');
 
-            $status = true;
-            $message = 'Auto eliminado correctamente';
-        } catch (Exception $e) {
-            $status = false;
-            $message = 'No se ha podido eliminar el auto, ya se han registrado estancias';
-        }
+        // TODO Eliminar un elemento
+        $elementosEliminados = Auto::destroy($id);
+
+        $status = true;
+        $message = 'Auto eliminado correctamente';
+
 
         if ($elementosEliminados != null || $elementosEliminados <= 0) {
             $status = false;
@@ -151,7 +155,8 @@ class AutosController extends Controller
         return $this->mensajeRespuesta($status, $message);
     }
 
-    public function Tipo(Request $request, $tipo){
+    public function Tipo(Request $request, $tipo)
+    {
         // TODO Validar la sesión
         $usuario = null;
         try {
