@@ -107,10 +107,13 @@ export class NavService {
             },
             {
                 active: false,
-                path: '/comenzar-mes',
+                children: [
+                    {path: '/mes/comenzar-mes', title: 'Comienzo Mes', type: 'link'},
+                    {path: '/mes/generar-informe', title: 'Generar Informe', type: 'link'},
+                ],
                 icon: 'users',
-                title: 'Comienzo Mes',
-                type: 'link'
+                title: 'Acciones del Mes',
+                type: 'sub'
             }
         ];
 

@@ -7,10 +7,11 @@ import {Ng2SmartTableModule} from 'ng2-smart-table';
 import {ReactiveFormsModule} from '@angular/forms';
 import {NgSelectModule} from '@ng-select/ng-select';
 import { ComenzarMesComponent } from './comenzar-mes/comenzar-mes.component';
+import { InformeCobroResidentesComponent } from './informe-cobro-residentes/informe-cobro-residentes.component';
 
 
 @NgModule({
-    declarations: [ComenzarMesComponent],
+    declarations: [ComenzarMesComponent, InformeCobroResidentesComponent],
     imports: [
         CommonModule,
         NgbModule,

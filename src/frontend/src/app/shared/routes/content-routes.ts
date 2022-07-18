@@ -26,11 +26,11 @@ export const content: Routes = [
         }
     },
     {
-        path: 'comenzar-mes',
+        path: 'mes',
         loadChildren: () => import('../../components/comenzar-mes/comenzar-mes.module').then(m => m.ComenzarMesModule),
         data: {
-            breadcrumb: 'Comienzo',
-            link: '/comenzar-mes'
+            breadcrumb: 'Mes',
+            link: '/mes'
         }
     }
 ];
