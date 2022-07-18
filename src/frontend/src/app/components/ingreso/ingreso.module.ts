@@ -7,10 +7,11 @@ import {Ng2SmartTableModule} from 'ng2-smart-table';
 import {ReactiveFormsModule} from '@angular/forms';
 import {NgSelectModule} from '@ng-select/ng-select';
 import { IngresoEntradaComponent } from './ingreso-entrada/ingreso-entrada.component';
+import { IngresoSalidaComponent } from './ingreso-salida/ingreso-salida.component';
 
 
 @NgModule({
-    declarations: [IngresoEntradaComponent],
+    declarations: [IngresoEntradaComponent, IngresoSalidaComponent],
     imports: [
         CommonModule,
         NgbModule,

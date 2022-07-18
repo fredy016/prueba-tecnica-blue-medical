@@ -1,0 +1,37 @@
+<!-- Container-fluid starts-->
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-12">
+            <div class="card tab2-card">
+                <div class="card-header">
+                    <h5> Registrar Salida</h5>
+                </div>
+                <div class="card-body tab2-card">
+                    <ngb-tabset class="tab-coupon">
+                        <ngb-tab title="Información">
+                            <ng-template ngbTabContent>
+                                <div class="tab-pane fade active show" id="account" role="tabpanel"
+                                     aria-labelledby="account-tab">
+                                    <form [formGroup]="form" class="needs-validation user-add">
+                                        <div class="form-group row">
+                                            <label for="input-placa" class="col-xl-3 col-md-4"><span>*</span>
+                                                Placa</label>
+                                            <input class="form-control col-xl-8 col-md-7" id="input-placa"
+                                                   type="text" formControlName="placa" oninput="this.value = this.value.toUpperCase()">
+                                        </div>
+                                    </form>
+                                </div>
+                            </ng-template>
+                        </ngb-tab>
+                    </ngb-tabset>
+                    <div class="pull-right">
+                        <button type="button" class="btn btn-primary" [disabled]="form.invalid"
+                                (click)="guardar()">Guardar
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Container-fluid Ends-->
