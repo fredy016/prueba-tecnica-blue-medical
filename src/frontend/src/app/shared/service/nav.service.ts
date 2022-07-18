@@ -95,6 +95,16 @@ export class NavService {
                 title: 'Vehículo residente',
                 type: 'sub'
             },
+            {
+                active: false,
+                children: [
+                    {path: '/ingreso/entrada', title: 'Registrar Entrada', type: 'link'},
+                    {path: '/ingreso/salida', title: 'Registrar Salida', type: 'link'},
+                ],
+                icon: 'users',
+                title: 'Registro de Ingreso',
+                type: 'sub'
+            },
         ];
 
         this.getPermisos();

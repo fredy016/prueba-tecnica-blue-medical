@@ -16,5 +16,13 @@ export const content: Routes = [
             breadcrumb: 'Autos residentes',
             link: '/auto_residente'
         }
+    },
+    {
+        path: 'ingreso',
+        loadChildren: () => import('../../components/ingreso/ingreso.module').then(m => m.IngresoModule),
+        data: {
+            breadcrumb: 'Autos residentes',
+            link: '/ingreso'
+        }
     }
 ];
