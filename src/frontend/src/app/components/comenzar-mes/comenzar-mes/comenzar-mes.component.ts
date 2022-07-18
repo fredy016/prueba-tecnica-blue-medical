@@ -8,11 +8,11 @@ import {Util} from '../../../shared/classes/util';
 import {DataSourceService} from '../../../shared/service/data-source.service';
 
 @Component({
-  selector: 'app-ingreso-entrada',
-  templateUrl: './ingreso-entrada.component.html',
-  styleUrls: ['./ingreso-entrada.component.scss']
+  selector: 'app-comenzar-mes',
+  templateUrl: './comenzar-mes.component.html',
+  styleUrls: ['./comenzar-mes.component.scss']
 })
-export class IngresoEntradaComponent implements OnInit {
+export class ComenzarMesComponent implements OnInit {
   public form: FormGroup;
 
   constructor(private formBuilder: FormBuilder, private dataSource: DataSourceService, private router: Router) {
@@ -29,19 +29,15 @@ export class IngresoEntradaComponent implements OnInit {
   }
 
   guardar() {
-    // TODO Función para guardar los datos del nuevo usuario
-    Util.mostrarConfirmacion('Guardar información', 'Desea registrar la entrada al estacionamiento?').then((result) => {
+    // TODO Función para comenzar un nuevo mes
+    Util.mostrarConfirmacion('Iniciar nuevo mes', 'Desea iniciar un nuevo mes?').then((result) => {
       if (result.value) {
         const datosPost = this.form.value;
         Util.mostrarMensajeEspera('Espere...', 'Realizando solicitud');
 
-        this.dataSource.solicitudPOST(datosPost, 'registro/entrada').subscribe(dataGuardado => {
+        this.dataSource.solicitudPOST(null, 'comienza_mes').subscribe(dataGuardado => {
           Swal.close();
-          Util.mostrarMensajeResponse((dataGuardado.status ? 'Exito!' : 'Advertencia!'), dataGuardado.message, dataGuardado.status).then((result2) => {
-            if (dataGuardado.status) {
-              this.form.reset();
-            }
-          });
+          Util.mostrarMensajeResponse((dataGuardado.status ? 'Exito!' : 'Advertencia!'), dataGuardado.message, dataGuardado.status);
         });
       }
     });

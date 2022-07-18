@@ -105,6 +105,13 @@ export class NavService {
                 title: 'Registro de Ingreso',
                 type: 'sub'
             },
+            {
+                active: false,
+                path: '/comenzar-mes',
+                icon: 'users',
+                title: 'Comienzo Mes',
+                type: 'link'
+            }
         ];
 
         this.getPermisos();

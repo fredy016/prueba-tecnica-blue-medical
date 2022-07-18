@@ -24,5 +24,13 @@ export const content: Routes = [
             breadcrumb: 'Ingreso',
             link: '/ingreso'
         }
+    },
+    {
+        path: 'comenzar-mes',
+        loadChildren: () => import('../../components/comenzar-mes/comenzar-mes.module').then(m => m.ComenzarMesModule),
+        data: {
+            breadcrumb: 'Comienzo',
+            link: '/comenzar-mes'
+        }
     }
 ];
