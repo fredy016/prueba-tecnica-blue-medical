@@ -7,6 +7,7 @@ use App\Http\Controllers\AutoTipoController;
 use App\Http\Controllers\AutosController;
 use App\Http\Controllers\RegistroContoller;
 use App\Http\Controllers\ControlMesController;
+
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -48,11 +49,12 @@ Route::group([
 
 Route::group([
     'middleware' => ['api'],
-], function ($route){
+], function ($route) {
     // TODO Rutas para tipos de autos
     Route::apiResource('autos_tipo', AutoTipoController::class);
 
     // TODO Rutas para autos
+    Route::get('autos/tipo/{tipo}', [AutosController::class, 'Tipo']);
     Route::apiResource('autos', AutosController::class);
 
     // TODO Rutas para el control del mes
