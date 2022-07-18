@@ -44,19 +44,21 @@ class RegistroContoller extends Controller
 
         // TODO Si el auto no existe lo insertamos como un visitante
         if (!$auto) {
-            $dataInserted = Auto::create([
+            $auto = Auto::create([
                 'placa' => $parametros['placa'],
                 'id_tipo' => 3
             ]);
-            $datos['id_auto'] = $dataInserted->id;
+            $datos['id_auto'] = $auto->id;
         } else {
             $datos['id_auto'] = $auto->id;
         }
 
         // TODO Validar que no intenten ingresar un auto que ya está estacionado
-        $estanciaActual = $auto->estancias->whereNull('salida')->first();
+        $estanciaActual = $auto->estancias;
         if($estanciaActual){
-            return $this->mensajeRespuesta(false,'La placa ingresada ya se encuentra dentro del estacionamiento');
+            $estanciaSinSalida = $estanciaActual->whereNull('salida')->first();
+            if($estanciaSinSalida)
+                return $this->mensajeRespuesta(false,'La placa ingresada ya se encuentra dentro del estacionamiento');
         }
 
         // TODO Registrar la estancia
@@ -122,6 +124,8 @@ class RegistroContoller extends Controller
                         'monto' => $estanciaActual->getDiffInDaysAttribute() * 0.05,
                         'concepto' => 'Pago de visitante',
                     ]);
+
+                    $message .= ', Usuario visitante, debe pagar un total de: ' . ($estanciaActual->getDiffInDaysAttribute() * 0.05);
                 }
             } else {
                 $message = 'El auto no tiene una estancia activa';
