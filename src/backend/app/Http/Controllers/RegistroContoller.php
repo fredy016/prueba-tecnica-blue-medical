@@ -17,16 +17,16 @@ class RegistroContoller extends Controller
     public function RegistroEntrada(Request $request)
     {
         // TODO Validar la sesión
+        $usuario = null;
         try {
-            auth()->userOrFail();
+            $usuario = auth()->userOrFail();
         } catch (UserNotDefinedException $e) {
             return $this->mensajeRespuesta(false, 'Usuario no autorizado', null, false);
         }
 
         // TODO Validar la información
         $validator = Validator::make($request->all(), [
-            'placa' => 'required',
-            'id_user' => 'required'
+            'placa' => 'required'
         ]);
 
         if ($validator->fails()) {
@@ -37,7 +37,7 @@ class RegistroContoller extends Controller
         $parametros = $request->all();
         $datos = [
             'placa' => $parametros['placa'],
-            'id_user' => $parametros['id_user'],
+            'id_user' => $usuario->id,
             'id_auto' => null
         ];
         $auto = Auto::where('placa', '=', $parametros['placa'])->first();
