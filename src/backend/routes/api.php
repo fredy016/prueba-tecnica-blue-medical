@@ -23,7 +23,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::group([
-    'middleware' => 'api',
+    'middleware' => ['api'],
     'prefix' => 'auth'
 ], function ($router) {
 
@@ -34,15 +34,9 @@ Route::group([
     Route::post('register', 'App\Http\Controllers\AuthController@register');
 });
 
-// TODO Rutas para tipos de autos
-Route::apiResource('autos_tipo', AutoTipoController::class);
-
-// TODO Rutas para autos
-Route::apiResource('autos', AutosController::class);
-
 // TODO Rutas para registro de entradas y salidas
 Route::group([
-    'middleware' => 'api',
+    'middleware' => ['api'],
     'prefix' => 'registro'
 ], function ($router) {
     // TODO Ruta para registrar Entrada
@@ -52,5 +46,15 @@ Route::group([
     Route::put('salida', [RegistroContoller::class, 'RegistroSalida']);
 });
 
-// TODO Rutas para el control del mes
-Route::post('comienza_mes', [ControlMesController::class, 'ComienzaMes']);
+Route::group([
+    'middleware' => ['api'],
+], function ($route){
+    // TODO Rutas para tipos de autos
+    Route::apiResource('autos_tipo', AutoTipoController::class);
+
+    // TODO Rutas para autos
+    Route::apiResource('autos', AutosController::class);
+
+    // TODO Rutas para el control del mes
+    Route::post('comienza_mes', [ControlMesController::class, 'ComienzaMes']);
+});
