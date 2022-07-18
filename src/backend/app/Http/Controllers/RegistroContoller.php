@@ -76,12 +76,11 @@ class RegistroContoller extends Controller
 
         // TODO Validar la información
         $validator = Validator::make($request->all(), [
-            'placa' => 'required',
-            'id_user' => 'required'
+            'placa' => 'required'
         ]);
 
         if ($validator->fails()) {
-            return $this->mensajeRespuesta(false,'Ah ocurrido un error al registrar la salida');
+            return $this->mensajeRespuesta(false,'Ah ocurrido un error al registrar la salida', [$validator->errors()]);
         }
 
         $parametros = $request->all();
