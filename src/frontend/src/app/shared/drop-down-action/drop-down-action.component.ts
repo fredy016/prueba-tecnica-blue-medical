@@ -16,7 +16,6 @@ export class DropDownActionComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        console.log(this.rowData);
     }
 
     accionPresionada(accion) {

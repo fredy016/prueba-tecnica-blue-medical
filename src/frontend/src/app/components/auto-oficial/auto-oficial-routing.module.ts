@@ -1,7 +1,7 @@
 import {NgModule} from '@angular/core';
 import {Routes, RouterModule} from '@angular/router';
 
-import {ClienteComponent} from './auto-oficial/auto-oficial.component';
+import {AutoOficialComponent} from './auto-oficial/auto-oficial.component';
 
 const routes: Routes = [
     {
@@ -9,7 +9,7 @@ const routes: Routes = [
         children: [
             {
                 path: '',
-                component: ClienteComponent,
+                component: AutoOficialComponent,
                 data: {
                     title: 'Auto oficial',
                     breadcrumb: 'lista',
@@ -24,5 +24,5 @@ const routes: Routes = [
     imports: [RouterModule.forChild(routes)],
     exports: [RouterModule]
 })
-export class ClienteRoutingModule {
+export class AutoOficialRoutingModule {
 }

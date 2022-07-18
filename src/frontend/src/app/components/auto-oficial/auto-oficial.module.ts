@@ -6,12 +6,12 @@ import {Ng2SmartTableModule} from 'ng2-smart-table';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {NgSelectModule} from '@ng-select/ng-select';
 
-import {ClienteRoutingModule} from './auto-oficial-routing.module';
-import { ClienteComponent } from './auto-oficial/auto-oficial.component';
+import {AutoOficialRoutingModule} from './auto-oficial-routing.module';
+import { AutoOficialComponent } from './auto-oficial/auto-oficial.component';
 
 
 @NgModule({
-    declarations: [ClienteComponent],
+    declarations: [AutoOficialComponent],
     imports: [
         CommonModule,
         NgbModule,
@@ -19,9 +19,9 @@ import { ClienteComponent } from './auto-oficial/auto-oficial.component';
         ReactiveFormsModule,
         NgSelectModule,
         CommonModule,
-        ClienteRoutingModule
+        AutoOficialRoutingModule
     ],
     providers: []
 })
-export class ClienteModule {
+export class AutoOficialModule {
 }

@@ -13,14 +13,10 @@ import {DataSourceService} from '../../../shared/service/data-source.service';
     templateUrl: './auto-oficial.component.html',
     styleUrls: ['./auto-oficial.component.scss']
 })
-export class ClienteComponent implements OnInit {
-    public clientesList = [];
-
-    private tipoGrupo = '';
+export class AutoOficialComponent implements OnInit {
+    public dataAutos = [];
 
     constructor(private dataSource: DataSourceService, private router: Router) {
-        console.log('Ruta actual = ' + router.url);
-        this.tipoGrupo = (router.url === '/producto-grupo' ? 'producto' : 'materia');
         this.obtener();
     }
 
@@ -40,6 +36,7 @@ export class ClienteComponent implements OnInit {
             Actions: {
                 title: 'Acción',
                 type: 'custom',
+                width: '100px',
                 renderComponent: DropDownActionComponent,
                 onComponentInitFunction: (instance) => {
                     instance.actionEmitter.subscribe(data => {
@@ -49,27 +46,15 @@ export class ClienteComponent implements OnInit {
                 valuePrepareFunction: (value, row, cell) => {
                     return [
                         {
-                            name: 'editar',
-                            title: 'Editar',
+                            name: 'eliminar',
+                            title: 'Eliminar',
                         }
                     ];
                 },
                 filter: false
             },
-            nombre: {
-                title: 'Nombre'
-            },
-            rtn: {
-                title: 'RTN',
-            },
-            nombre_representante: {
-                title: 'Representante',
-            },
-            telefono: {
-                title: 'Telefono',
-            },
-            correo: {
-                title: 'Correo',
+            placa: {
+                title: 'Placa'
             }
         },
         width: '20px',
@@ -81,32 +66,28 @@ export class ClienteComponent implements OnInit {
 
     obtener() {
         // Util.mostrarMensajeEspera('Espere', 'Realizando solicitud');
-        this.dataSource.solicitudGET('auto-oficial').subscribe(data => {
+        this.dataSource.solicitudGET('autos').subscribe(data => {
             if (data.status) {
-                this.clientesList = data.data;
+                this.dataAutos = data.data;
             } else {
                 Util.mostrarMensajeResponse('Error solicitando información', data.message, false);
             }
         });
     }
 
-        onCustom(event) {
-            switch (event.action) {
-                case 'editar':
-                    this.edit(event.data.cliente_id);
-                    break;
-            }
+    onCustom(event) {
+        switch (event.action) {
+            case 'eliminar':
+                this.delete(event.data.id);
+                break;
         }
-
-    edit(id) {
-        this.router.navigate(['/auto-oficial/' + id]);
     }
 
     delete(id) {
-        Util.mostrarConfirmacion('Eliminación grupo de materia prima', 'Desea eliminar el grupo de materia prima seleccionada?').then((result) => {
+        Util.mostrarConfirmacion('Eliminación vehículo oficial', 'Desea eliminar el vehículo oficial seleccionada?').then((result) => {
             if (result.value) {
                 Util.mostrarMensajeEspera('Espere...', 'Realizando solicitud');
-                this.dataSource.solicitudDELETE('grupo/' + id).subscribe(dataGuardado => {
+                this.dataSource.solicitudDELETE('autos/' + id).subscribe(dataGuardado => {
                     Swal.close();
                     Util.mostrarMensajeResponse((dataGuardado.status ? 'Exito!' : 'Advertencia!'), dataGuardado.message, dataGuardado.status);
                     if (dataGuardado.status) {
