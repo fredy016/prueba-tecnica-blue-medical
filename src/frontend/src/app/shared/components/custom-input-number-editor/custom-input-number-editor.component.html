@@ -1,0 +1,12 @@
+<input class="form-control" type="number"
+       #name
+       [(ngModel)]="cell.newValue"
+       [name]="cell.getId()"
+       [placeholder]="cell.getTitle()"
+       [disabled]="!cell.isEditable()"
+       (click)="onClick.emit($event)"
+       (keydown.enter)="onEdited.emit($event)"
+       (keydown.esc)="onStopEditing.emit()"
+       min="1"
+       step="0.01"
+>

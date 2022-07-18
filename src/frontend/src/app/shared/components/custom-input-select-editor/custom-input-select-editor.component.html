@@ -1,0 +1,17 @@
+<ng-select
+        #name
+        style="padding-left: 0 !important; padding-right: 0 !important; z-index: 1000; width: 200px"
+        [items]="items"
+        bindLabel="title"
+        bindValue="value"
+        [(ngModel)]="cell.newValue"
+        [name]="cell.getId()"
+        [placeholder]="cell.getTitle()"
+        [disabled]="!cell.isEditable()"
+        (click)="onClick.emit($event)"
+        (keydown.enter)="onEdited.emit($event)"
+        (keydown.esc)="onStopEditing.emit()"
+        appendTo="body"
+>
+</ng-select>
+

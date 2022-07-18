@@ -1,0 +1,53 @@
+import {environment} from '../../../../environments/environment';
+
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {ActivatedRoute, Router, NavigationEnd, PRIMARY_OUTLET} from '@angular/router';
+
+import {filter} from 'rxjs/operators';
+import {map} from 'rxjs/internal/operators';
+import {Util} from '../../classes/util';
+
+@Component({
+    selector: 'app-breadcrumb',
+    templateUrl: './breadcrumb.component.html',
+    styleUrls: ['./breadcrumb.component.scss']
+})
+export class BreadcrumbComponent implements OnInit, OnDestroy {
+
+    public breadcrumbs;
+    public title: string;
+    public ev = environment;
+
+    constructor(private activatedRoute: ActivatedRoute,
+                private router: Router) {
+        this.router.events
+            .pipe(filter(event => event instanceof NavigationEnd))
+            .pipe(map(() => this.activatedRoute))
+            .pipe(map((route) => {
+                while (route.firstChild) {
+                    route = route.firstChild;
+                }
+                return route;
+            }))
+            .pipe(filter(route => route.outlet === PRIMARY_OUTLET))
+            .subscribe(route => {
+                const snapshot = this.router.routerState.snapshot;
+                const title = route.snapshot.data[Util.getKey('title')];
+                const parent = route.parent.snapshot.data[Util.getKey('breadcrumb')];
+                const child = route.snapshot.data[Util.getKey('breadcrumb')];
+                this.breadcrumbs = {};
+                this.title = title;
+                this.breadcrumbs = {
+                    parentBreadcrumb: parent,
+                    childBreadcrumb: child
+                };
+            });
+    }
+
+    ngOnInit() {
+    }
+
+    ngOnDestroy() {
+    }
+
+}

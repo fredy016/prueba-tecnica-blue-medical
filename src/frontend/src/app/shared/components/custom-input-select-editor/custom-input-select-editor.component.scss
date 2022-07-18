@@ -1,0 +1,12 @@
+ng-dropdown-panel.custom-class {
+  min-width: 500px !important;
+}
+
+.ng-dropdown-panel.custom-class {
+  &.ng-select-top {
+    margin-top: -50px;
+  }
+  &.ng-select-bottom {
+    margin-top: 50px;
+  }
+}
