@@ -1,6 +1,6 @@
 export const environment = {
     production: true,
-    urlApi: 'fredy-nginx:8888/api/',
-    urlReporte: 'fredy-nginx:8888/',
+    urlApi: 'http://localhost:8888/api/',
+    urlReporte: 'http://localhost:8888/',
     nombreEmpresa: 'Blue Medical'
 };

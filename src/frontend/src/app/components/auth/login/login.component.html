@@ -23,12 +23,8 @@
                                                         class="form-control" placeholder="password">
                                                 </div>
                                                 <div class="form-terms">
-                                                    <div class="custom-control custom-checkbox mr-sm-2">
-                                                        <a routerLink="/forgot"
-                                                           class="btn btn-default forgot-pass">recuperar contraseña</a>
-                                                    </div>
                                                 </div>
-                                                <div class="form-button">
+                                                <div class="form-button text-center">
                                                     <button [disabled]="!loginForm.valid" (click)="onSubmit()" class="btn btn-primary" type="submit">Iniciar Sesión</button>
                                                 </div>
                                                 <div class="form-footer">
