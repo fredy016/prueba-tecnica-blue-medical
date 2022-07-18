@@ -79,7 +79,7 @@ export class NavService {
                 active: false,
                 children: [
                     {path: '/auto_oficial', title: 'Lista', type: 'link'},
-                    {path: '/auto_residente/crear', title: 'Crear', type: 'link'},
+                    {path: '/auto_oficial/crear', title: 'Dar de alta', type: 'link'},
                 ],
                 icon: 'users',
                 title: 'Vehículo oficial',
@@ -89,7 +89,7 @@ export class NavService {
                 active: false,
                 children: [
                     {path: '/auto_residente', title: 'Lista', type: 'link'},
-                    {path: '/auto_residente/crear', title: 'Crear', type: 'link'},
+                    {path: '/auto_residente/crear', title: 'Dar de alta', type: 'link'},
                 ],
                 icon: 'users',
                 title: 'Vehículo residente',

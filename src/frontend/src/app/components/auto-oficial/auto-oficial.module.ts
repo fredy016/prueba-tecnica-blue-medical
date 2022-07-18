@@ -8,10 +8,11 @@ import {NgSelectModule} from '@ng-select/ng-select';
 
 import {AutoOficialRoutingModule} from './auto-oficial-routing.module';
 import { AutoOficialComponent } from './auto-oficial/auto-oficial.component';
+import { AutoOficialCrearComponent } from './auto-oficial-crear/auto-oficial-crear.component';
 
 
 @NgModule({
-    declarations: [AutoOficialComponent],
+    declarations: [AutoOficialComponent, AutoOficialCrearComponent],
     imports: [
         CommonModule,
         NgbModule,
